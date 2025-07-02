@@ -1,0 +1,73 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "/public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "alumni"
+    label: "Alumni (ALIVE)"
+    folder: "content/alumni"
+    create: true
+    slug: "{{fields.nama}}-{{fields.angkatan}}"
+    fields:
+      - { label: "Nama", name: "nama", widget: "string" }
+      - { label: "Angkatan", name: "angkatan", widget: "string" }
+      - { label: "Bidang Karier", name: "bidang", widget: "string" }
+      - { label: "LinkedIn", name: "linkedin", widget: "string", required: false }
+      - { label: "Foto", name: "foto", widget: "image", required: false }
+      - { label: "Keterhubungan", name: "keterhubungan", widget: "string", required: false }
+  - name: "infoprof"
+    label: "Info Karier (INFOPROF)"
+    folder: "content/infoprof"
+    create: true
+    slug: "{{fields.judul}}-{{year}}-{{month}}-{{day}}"
+    fields:
+      - { label: "Judul", name: "judul", widget: "string" }
+      - { label: "Jenis", name: "jenis", widget: "select", options: ["Magang", "Lowongan Kerja", "Beasiswa"] }
+      - { label: "Tanggal Posting", name: "tanggal", widget: "datetime" }
+      - { label: "Deskripsi", name: "deskripsi", widget: "text" }
+      - { label: "Link", name: "link", widget: "string", required: false }
+      - { label: "Arsipkan?", name: "arsip", widget: "boolean", required: false }
+  - name: "ceritakita"
+    label: "CeritaKita"
+    folder: "content/ceritakita"
+    create: true
+    slug: "{{fields.nama}}-{{year}}-{{month}}-{{day}}"
+    fields:
+      - { label: "Nama Alumni", name: "nama", widget: "string" }
+      - { label: "Gambar", name: "gambar", widget: "image", required: false }
+      - { label: "Cerita", name: "cerita", widget: "markdown" }
+      - { label: "Tanggal Terbit", name: "publish_date", widget: "datetime" }
+  - name: "event"
+    label: "Event (INSIGHT & SINERGI)"
+    folder: "content/event"
+    create: true
+    slug: "{{fields.nama_acara}}-{{year}}-{{month}}-{{day}}"
+    fields:
+      - { label: "Nama Acara", name: "nama_acara", widget: "string" }
+      - { label: "Tanggal", name: "tanggal", widget: "datetime" }
+      - { label: "Deskripsi", name: "deskripsi", widget: "text" }
+      - { label: "Link RSVP", name: "rsvp", widget: "string", required: false }
+      - { label: "Feedback Form", name: "feedback", widget: "string", required: false }
+  - name: "companyvisit"
+    label: "Company Visit"
+    folder: "content/companyvisit"
+    create: true
+    slug: "{{fields.perusahaan}}-{{year}}-{{month}}-{{day}}"
+    fields:
+      - { label: "Perusahaan", name: "perusahaan", widget: "string" }
+      - { label: "Tanggal", name: "tanggal", widget: "datetime" }
+      - { label: "Laporan", name: "laporan", widget: "file", required: false }
+      - { label: "Galeri Foto", name: "galeri", widget: "image", required: false, multiple: true }
+      - { label: "Testimoni", name: "testimoni", widget: "text", required: false }
+  - name: "reaktor"
+    label: "REAKTOR (Dokumen)"
+    folder: "content/reaktor"
+    create: true
+    slug: "{{fields.judul}}-{{year}}-{{month}}-{{day}}"
+    fields:
+      - { label: "Judul", name: "judul", widget: "string" }
+      - { label: "File PDF", name: "file", widget: "file" }
+      - { label: "Deskripsi", name: "deskripsi", widget: "text", required: false } 
