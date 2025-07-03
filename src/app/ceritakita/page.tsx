@@ -1,5 +1,29 @@
 'use client'
 
+const dummyCerita = [
+  {
+    id: 1,
+    nama: 'Ahmad Fauzi',
+    gambar: '/uploads/cerita1.jpg',
+    cerita: 'Setelah lulus dari Fisika ITB, saya memulai karier sebagai Data Scientist di startup teknologi. Pengalaman belajar fisika memberikan saya kemampuan analisis yang kuat dalam menghadapi masalah kompleks.',
+    publish_date: '2024-07-01'
+  },
+  {
+    id: 2,
+    nama: 'Sarah Putri',
+    gambar: '/uploads/cerita2.jpg',
+    cerita: 'Dari Fisika ITB ke Software Engineering di Google. Fisika mengajarkan saya cara berpikir sistematis yang sangat berguna dalam pengembangan software.',
+    publish_date: '2024-06-15'
+  },
+  {
+    id: 3,
+    nama: 'Budi Santoso',
+    gambar: '/uploads/cerita3.jpg',
+    cerita: 'Saya sekarang bekerja sebagai Research Analyst di lembaga penelitian. Ilmu fisika yang dipelajari di ITB menjadi fondasi kuat untuk karier riset saya.',
+    publish_date: '2024-05-20'
+  }
+]
+
 export default function CeritaKitaPage() {
   return (
     <div className="min-h-screen bg-gray-50">
@@ -25,13 +49,7 @@ export default function CeritaKitaPage() {
                   <div className="flex items-center mb-4">
                     <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mr-4">
                       {cerita.gambar ? (
-                        <Image
-                          src={cerita.gambar}
-                          alt={cerita.nama}
-                          width={64}
-                          height={64}
-                          className="rounded-full"
-                        />
+                        <img src={cerita.gambar} alt={cerita.nama} className="w-16 h-16 rounded-full object-cover mr-4" />
                       ) : (
                         <span className="text-2xl font-bold text-purple-600">
                           {cerita.nama.charAt(0)}
