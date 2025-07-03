@@ -1,22 +1,13 @@
 backend:
   name: git-gateway
   branch: main
-  # Allow users without specific roles to access
-  accept_roles: #optional - accepts all users if left out
-    - admin
-    - editor
-  # Squash merge GitHub PRs
-  squash_merges: true
-
-# Optional: Authentication
-# publish_mode: editorial_workflow # Enable draft/review workflow
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
 collections:
   - name: "infoprof"
-    label: "Info Karier (INFOPROF)"
+    label: "Info Karier"
     folder: "content/infoprof"
     create: true
     slug: "{{fields.judul}}-{{year}}-{{month}}-{{day}}"
@@ -26,14 +17,11 @@ collections:
       - { label: "Tanggal Post", name: "tanggal_post", widget: "datetime" }
       - { label: "Deskripsi", name: "deskripsi", widget: "text" }
       - { label: "Link Utama", name: "link_utama", widget: "string", required: false }
-      - { label: "Link Tambahan", name: "link_tambahan", widget: "list", required: false, field: { label: "Link", name: "link", widget: "string" } }
       - { label: "Email Kontak", name: "kontak_email", widget: "string", required: false }
-      - { label: "WhatsApp Kontak", name: "kontak_wa", widget: "string", required: false }
       - { label: "Sumber", name: "sumber", widget: "string" }
-      - { label: "Poster", name: "poster_filename", widget: "image", required: false }
-      - { label: "Arsipkan?", name: "arsip", widget: "boolean", required: false }
+      
   - name: "alumni"
-    label: "Alumni (ALIVE)"
+    label: "Alumni"
     folder: "content/alumni"
     create: true
     slug: "{{fields.nama}}-{{fields.angkatan}}"
@@ -42,8 +30,7 @@ collections:
       - { label: "Angkatan", name: "angkatan", widget: "string" }
       - { label: "Bidang Karier", name: "bidang", widget: "string" }
       - { label: "LinkedIn", name: "linkedin", widget: "string", required: false }
-      - { label: "Foto", name: "foto", widget: "image", required: false }
-      - { label: "Keterhubungan", name: "keterhubungan", widget: "string", required: false }
+      
   - name: "ceritakita"
     label: "CeritaKita"
     folder: "content/ceritakita"
@@ -51,37 +38,5 @@ collections:
     slug: "{{fields.nama}}-{{year}}-{{month}}-{{day}}"
     fields:
       - { label: "Nama Alumni", name: "nama", widget: "string" }
-      - { label: "Gambar", name: "gambar", widget: "image", required: false }
       - { label: "Cerita", name: "cerita", widget: "markdown" }
       - { label: "Tanggal Terbit", name: "publish_date", widget: "datetime" }
-  - name: "event"
-    label: "Event (INSIGHT & SINERGI)"
-    folder: "content/event"
-    create: true
-    slug: "{{fields.nama_acara}}-{{year}}-{{month}}-{{day}}"
-    fields:
-      - { label: "Nama Acara", name: "nama_acara", widget: "string" }
-      - { label: "Tanggal", name: "tanggal", widget: "datetime" }
-      - { label: "Deskripsi", name: "deskripsi", widget: "text" }
-      - { label: "Link RSVP", name: "rsvp", widget: "string", required: false }
-      - { label: "Feedback Form", name: "feedback", widget: "string", required: false }
-  - name: "companyvisit"
-    label: "Company Visit"
-    folder: "content/companyvisit"
-    create: true
-    slug: "{{fields.perusahaan}}-{{year}}-{{month}}-{{day}}"
-    fields:
-      - { label: "Perusahaan", name: "perusahaan", widget: "string" }
-      - { label: "Tanggal", name: "tanggal", widget: "datetime" }
-      - { label: "Laporan", name: "laporan", widget: "file", required: false }
-      - { label: "Galeri Foto", name: "galeri", widget: "image", required: false, multiple: true }
-      - { label: "Testimoni", name: "testimoni", widget: "text", required: false }
-  - name: "reaktor"
-    label: "REAKTOR (Dokumen)"
-    folder: "content/reaktor"
-    create: true
-    slug: "{{fields.judul}}-{{year}}-{{month}}-{{day}}"
-    fields:
-      - { label: "Judul", name: "judul", widget: "string" }
-      - { label: "File PDF", name: "file", widget: "file" }
-      - { label: "Deskripsi", name: "deskripsi", widget: "text", required: false } 
