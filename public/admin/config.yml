@@ -1,42 +1,136 @@
 backend:
   name: git-gateway
   branch: main
+  squash_merges: true
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
+# Site configuration
+site_url: https://arcade-himafi.netlify.app
+display_url: https://arcade-himafi.netlify.app
+logo_url: /logo.png
+
+# Editor preview
+show_preview_links: true
+publish_mode: editorial_workflow
+
 collections:
   - name: "infoprof"
-    label: "Info Karier"
+    label: "📋 Info Karier & Profesi"
     folder: "content/infoprof"
     create: true
+    delete: true
     slug: "{{fields.judul}}-{{year}}-{{month}}-{{day}}"
+    preview_path: "/infoprof/{{slug}}"
     fields:
-      - { label: "Judul", name: "judul", widget: "string" }
-      - { label: "Kategori", name: "kategori", widget: "select", options: ["Magang", "Beasiswa", "Lowongan"] }
-      - { label: "Tanggal Post", name: "tanggal_post", widget: "datetime" }
-      - { label: "Deskripsi", name: "deskripsi", widget: "text" }
-      - { label: "Link Utama", name: "link_utama", widget: "string", required: false }
-      - { label: "Email Kontak", name: "kontak_email", widget: "string", required: false }
-      - { label: "Sumber", name: "sumber", widget: "string" }
+      - { label: "Judul", name: "judul", widget: "string", hint: "Judul informasi karier atau profesi" }
+      - { label: "Kategori", name: "kategori", widget: "select", options: ["Magang", "Beasiswa", "Lowongan", "Sertifikasi", "Kompetisi"] }
+      - { label: "Tanggal Post", name: "tanggal_post", widget: "datetime", format: "YYYY-MM-DD HH:mm:ss" }
+      - { label: "Deskripsi Singkat", name: "deskripsi", widget: "text", hint: "Deskripsi singkat untuk preview" }
+      - { label: "Konten Detail", name: "body", widget: "markdown", hint: "Konten lengkap artikel" }
+      - { label: "Link Utama", name: "link_utama", widget: "string", required: false, hint: "Link untuk mendaftar atau informasi lebih lanjut" }
+      - { label: "Email Kontak", name: "kontak_email", widget: "string", required: false, pattern: ['^[^\s@]+@[^\s@]+\.[^\s@]+$', 'Email tidak valid'] }
+      - { label: "Sumber", name: "sumber", widget: "string", hint: "Sumber informasi" }
+      - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
+      - { label: "Tags", name: "tags", widget: "list", required: false, hint: "Tag untuk pencarian" }
+      - { label: "Deadline", name: "deadline", widget: "datetime", required: false }
+      - { label: "Arsip", name: "arsip", widget: "boolean", default: false, hint: "Centang jika ingin mengarsipkan post ini" }
       
   - name: "alumni"
-    label: "Alumni"
+    label: "🎓 Alumni"
     folder: "content/alumni"
     create: true
+    delete: true
     slug: "{{fields.nama}}-{{fields.angkatan}}"
+    preview_path: "/alumni/{{slug}}"
     fields:
       - { label: "Nama", name: "nama", widget: "string" }
       - { label: "Angkatan", name: "angkatan", widget: "string" }
       - { label: "Bidang Karier", name: "bidang", widget: "string" }
-      - { label: "LinkedIn", name: "linkedin", widget: "string", required: false }
+      - { label: "LinkedIn", name: "linkedin", widget: "string", required: false, pattern: ['^https://.*linkedin\.com.*', 'Harus berupa URL LinkedIn'] }
+      - { label: "Foto Profil", name: "foto", widget: "image", required: false }
+      - { label: "Prestasi", name: "prestasi", widget: "list", required: false }
+      - { label: "Pengalaman Kerja", name: "pengalaman", widget: "markdown", required: false }
+      - { label: "Pesan untuk Adik Kelas", name: "pesan", name: "body", widget: "markdown", required: false }
       
   - name: "ceritakita"
-    label: "CeritaKita"
+    label: "📖 CeritaKita"
     folder: "content/ceritakita"
     create: true
+    delete: true
     slug: "{{fields.nama}}-{{year}}-{{month}}-{{day}}"
+    preview_path: "/ceritakita/{{slug}}"
     fields:
       - { label: "Nama Alumni", name: "nama", widget: "string" }
-      - { label: "Cerita", name: "cerita", widget: "markdown" }
-      - { label: "Tanggal Terbit", name: "publish_date", widget: "datetime" }
+      - { label: "Cerita", name: "cerita", name: "body", widget: "markdown" }
+      - { label: "Tanggal Terbit", name: "publish_date", widget: "datetime", format: "YYYY-MM-DD HH:mm:ss" }
+      - { label: "Foto", name: "foto", widget: "image", required: false }
+      - { label: "Kategori Cerita", name: "kategori", widget: "select", options: ["Karier", "Akademik", "Inspirasi", "Tips"], default: "Inspirasi" }
+
+  - name: "event"
+    label: "🎉 Events"
+    folder: "content/event"
+    create: true
+    delete: true
+    slug: "{{fields.judul}}-{{year}}-{{month}}-{{day}}"
+    preview_path: "/events/{{slug}}"
+    fields:
+      - { label: "Judul Event", name: "judul", widget: "string" }
+      - { label: "Deskripsi", name: "deskripsi", widget: "text" }
+      - { label: "Tanggal Event", name: "tanggal_event", widget: "datetime" }
+      - { label: "Lokasi", name: "lokasi", widget: "string" }
+      - { label: "Link Pendaftaran", name: "link_daftar", widget: "string", required: false }
+      - { label: "Poster", name: "poster", widget: "image", required: false }
+      - { label: "Detail Event", name: "body", widget: "markdown" }
+      - { label: "Organizer", name: "organizer", widget: "string", default: "HIMAFI" }
+
+  - name: "companyvisit"
+    label: "🏢 Company Visit"
+    folder: "content/companyvisit"
+    create: true
+    delete: true
+    slug: "{{fields.perusahaan}}-{{year}}-{{month}}-{{day}}"
+    preview_path: "/company-visit/{{slug}}"
+    fields:
+      - { label: "Nama Perusahaan", name: "perusahaan", widget: "string" }
+      - { label: "Tanggal Kunjungan", name: "tanggal", widget: "datetime" }
+      - { label: "Deskripsi", name: "deskripsi", widget: "text" }
+      - { label: "Laporan Kunjungan", name: "body", widget: "markdown" }
+      - { label: "Foto Gallery", name: "gallery", widget: "list", field: { label: "Foto", name: "foto", widget: "image" }, required: false }
+      - { label: "Bidang Industri", name: "bidang", widget: "string" }
+
+  - name: "reaktor"
+    label: "⚛️ Reaktor"
+    folder: "content/reaktor"
+    create: true
+    delete: true
+    slug: "{{fields.judul}}-{{year}}-{{month}}-{{day}}"
+    preview_path: "/reaktor/{{slug}}"
+    fields:
+      - { label: "Judul", name: "judul", widget: "string" }
+      - { label: "Kategori", name: "kategori", widget: "select", options: ["Tutorial", "Artikel", "Review", "Tips"] }
+      - { label: "Tanggal Publish", name: "tanggal_publish", widget: "datetime" }
+      - { label: "Penulis", name: "penulis", widget: "string" }
+      - { label: "Konten", name: "body", widget: "markdown" }
+      - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
+      - { label: "Tags", name: "tags", widget: "list", required: false }
+
+  - name: "pages"
+    label: "📄 Halaman Statis"
+    files:
+      - label: "Tentang Kami"
+        name: "about"
+        file: "content/pages/about.md"
+        fields:
+          - { label: "Judul", name: "title", widget: "string" }
+          - { label: "Konten", name: "body", widget: "markdown" }
+      - label: "Kontak"
+        name: "contact"
+        file: "content/pages/contact.md"
+        fields:
+          - { label: "Judul", name: "title", widget: "string" }
+          - { label: "Konten", name: "body", widget: "markdown" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "Instagram", name: "instagram", widget: "string", required: false }
+          - { label: "WhatsApp", name: "whatsapp", widget: "string", required: false }

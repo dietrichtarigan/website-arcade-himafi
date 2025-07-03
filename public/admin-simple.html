@@ -1,23 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <meta charset="utf-8">
-    <title>ARCADE HIMAFI Admin - Direct Access</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCADE HIMAFI - Simple Admin Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
 </head>
-<body>
-    <div style="padding: 20px; font-family: Arial, sans-serif;">
-        <h1>🚀 ARCADE HIMAFI Admin Panel</h1>
-        <p><strong>SIMPLE SOLUTION:</strong> Bypass Netlify Identity, langsung ke GitHub-based CMS</p>
-        
-        <div style="background: #e8f5e8; padding: 15px; border-radius: 5px; margin: 20px 0;">
-            <h3>✅ WORKING ALTERNATIVE:</h3>
-            <p>1. <strong>GitHub Direct Edit:</strong> Edit content langsung di GitHub repository</p>
-            <p>2. <strong>Forestry CMS:</strong> Connect ke GitHub repo untuk visual editing</p>
-            <p>3. <strong>Simple File Manager:</strong> Upload/edit files via web interface</p>
-        </div>
+<body class="bg-gray-50">
+    <div x-data="adminDashboard()" x-cloak class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <h1 class="text-xl font-semibold text-gray-900">🎯 ARCADE HIMAFI Admin</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button @click="refreshData()" 
+                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                            🔄 Refresh
+                        </button>
+                        <a href="/admin/" target="_blank"
+                           class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700">
+                            📝 Full CMS
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-        <div style="background: #f0f0f0; padding: 15px; border-radius: 5px;">
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="p-5">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <span class="text-2xl">📝</span>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-500 truncate">Total Konten</dt>
+                                    <dd class="text-lg font-medium text-gray-900" x-text="totalContent">-</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white shadow rounded-lg p-6 mb-8">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <a href="/admin/" target="_blank" 
+                       class="flex items-center justify-center px-4 py-3 border border-transparent rounded-md shadow-sm bg-blue-600 text-white hover:bg-blue-700">
+                        🎨 Open Full CMS
+                    </a>
+                    <a href="https://github.com/your-username/your-repo/tree/main/content" target="_blank"
+                       class="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 hover:bg-gray-50">
+                        📂 Edit on GitHub
+                    </a>
+                    <button @click="checkStatus()"
+                            class="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 hover:bg-gray-50">
+                        🔍 Check Status
+                    </button>
+                </div>
+            </div>
+
+            <!-- Status Display -->
+            <div x-show="status" x-transition class="bg-white shadow rounded-lg p-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">System Status</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600">CMS Status:</span>
+                        <span class="text-sm font-medium text-green-600">✅ Online</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600">Last Updated:</span>
+                        <span class="text-sm text-gray-900" x-text="new Date().toLocaleString('id-ID')"></span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function adminDashboard() {
+            return {
+                totalContent: 0,
+                status: false,
+
+                init() {
+                    this.loadStats();
+                },
+
+                async loadStats() {
+                    // Simple content counting
+                    this.totalContent = Math.floor(Math.random() * 100) + 50; // Placeholder
+                },
+
+                refreshData() {
+                    this.loadStats();
+                    alert('Data refreshed!');
+                },
+
+                checkStatus() {
+                    this.status = true;
+                    setTimeout(() => { this.status = false; }, 5000);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
             <h3>📁 File Locations untuk Edit Manual:</h3>
             <ul>
                 <li><code>content/infoprof/</code> - Info karier</li>

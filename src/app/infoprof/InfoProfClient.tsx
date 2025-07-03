@@ -1,20 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-
-interface InfoProfPost {
-  id: string
-  judul: string
-  kategori: string
-  tanggal_post: string
-  deskripsi: string
-  link_utama?: string
-  kontak_email?: string
-  sumber: string
-  content: string
-  arsip?: boolean
-  [key: string]: any
-}
+import { InfoProfPost } from '@/lib/content'
 
 interface Props {
   initialData: InfoProfPost[]
