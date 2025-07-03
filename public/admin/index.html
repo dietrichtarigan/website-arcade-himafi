@@ -33,17 +33,18 @@
     
     <!-- Manual admin instructions -->
     <div id="manual-admin" style="background: #2c3e50; color: white; padding: 20px; margin: 20px; border-radius: 8px; display: none; font-family: Arial, sans-serif;">
-      <h3>🔧 Manual Admin Setup Required</h3>
-      <p><strong>Untuk Admin Website:</strong></p>
+      <h3>🔧 User Role Setup Required</h3>
+      <p><strong>Admin perlu set role untuk user:</strong></p>
       <ol>
         <li>Login ke <a href="https://app.netlify.com" target="_blank" style="color: #3498db;">Netlify Dashboard</a></li>
         <li>Pilih site: <strong>arcadehimafi</strong></li>
         <li>Go to: <strong>Site Settings → Identity → Users</strong></li>
-        <li>Klik <strong>"Invite User"</strong></li>
-        <li>Input email user yang perlu akses admin</li>
-        <li>User akan dapat invitation email yang bisa langsung digunakan</li>
+        <li>Klik nama user yang bermasalah</li>
+        <li>Di bagian <strong>"Roles"</strong>, tambahkan role: <strong>admin</strong> atau <strong>editor</strong></li>
+        <li>Save → User bisa langsung login ke CMS</li>
       </ol>
-      <p><strong>Alternatif:</strong> Manually confirm existing users di Users list.</p>
+      <p><strong>Alternatif:</strong> Invite user baru dan set role saat invitation.</p>
+      <p><strong>⚠️ Penting:</strong> User tanpa role tidak bisa akses Netlify CMS meskipun email ter-konfirmasi!</p>
     </div>
     
     <style>
@@ -91,18 +92,28 @@
             // Handle successful login
             window.netlifyIdentity.on("login", (user) => {
               console.log('User logged in:', user);
+              console.log('User roles:', user.app_metadata?.roles);
+              console.log('Email confirmed at:', user.email_confirmed_at);
               
               // Check if email is confirmed
               if (user && !user.email_confirmed_at) {
                 console.log('Email not confirmed, showing notice');
                 document.getElementById('email-notice').style.display = 'block';
                 
-                // Don't auto-logout, let user see the notice
                 alert('⚠️ Email belum dikonfirmasi!\n\nSilakan:\n1. Cek email dan klik link konfirmasi\n2. Atau hubungi admin untuk manual invitation');
-              } else {
-                console.log('Email confirmed, allowing access to CMS');
+              } 
+              // Check if user has required role
+              else if (user && (!user.app_metadata?.roles || user.app_metadata.roles.length === 0)) {
+                console.log('User has no roles assigned');
+                document.getElementById('manual-admin').style.display = 'block';
+                
+                alert('⚠️ User Role Belum Diset!\n\nEmail sudah ter-konfirmasi tapi role belum diset.\n\nAdmin perlu:\n1. Login ke Netlify Dashboard\n2. Set role "admin" atau "editor" untuk user ini\n3. User bisa langsung login setelah role di-set');
+              } 
+              else {
+                console.log('Email confirmed and role assigned, allowing access to CMS');
                 document.getElementById('email-notice').style.display = 'none';
-                // Don't redirect, let CMS load naturally
+                document.getElementById('manual-admin').style.display = 'none';
+                // User ready for CMS
               }
             });
             
@@ -113,16 +124,26 @@
             });
           } else {
             console.log('User already logged in:', user);
+            console.log('User roles:', user.app_metadata?.roles);
+            console.log('Email confirmed at:', user.email_confirmed_at);
             
             // Check if current user email is confirmed
             if (!user.email_confirmed_at) {
               console.log('Current user email not confirmed');
               document.getElementById('email-notice').style.display = 'block';
               alert('⚠️ Email belum dikonfirmasi!\n\nAnda sudah login tetapi email belum ter-verifikasi.\nSilakan konfirmasi email atau hubungi admin.');
-            } else {
-              console.log('User email confirmed, CMS ready');
+            } 
+            // Check if user has required role
+            else if (!user.app_metadata?.roles || user.app_metadata.roles.length === 0) {
+              console.log('Current user has no roles assigned');
+              document.getElementById('manual-admin').style.display = 'block';
+              alert('⚠️ User Role Belum Diset!\n\nEmail ter-konfirmasi tapi role belum diset.\n\nHubungi admin untuk set role "admin" atau "editor".');
+            }
+            else {
+              console.log('User email confirmed and role assigned, CMS ready');
               document.getElementById('email-notice').style.display = 'none';
-              // User is confirmed and logged in, CMS should load automatically
+              document.getElementById('manual-admin').style.display = 'none';
+              // User is confirmed and has role, CMS should load automatically
             }
           }
         });
