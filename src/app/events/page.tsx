@@ -1,7 +1,5 @@
 'use client'
 
-import { useState } from 'react'
-
 const dummyEvents = [
   {
     id: 1,
@@ -30,12 +28,6 @@ const dummyEvents = [
 ]
 
 export default function EventsPage() {
-  const [selectedEvent, setSelectedEvent] = useState(null)
-
-  const upcomingEvents = dummyEvents.filter(event => 
-    new Date(event.tanggal) >= new Date()
-  ).sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal))
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -55,7 +47,7 @@ export default function EventsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold mb-8 text-center text-gray-900">Event Mendatang</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {upcomingEvents.map(event => (
+            {dummyEvents.map((event: any) => (
               <div key={event.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6">
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">{event.nama_acara}</h3>
                 <p className="text-orange-600 font-medium mb-4">

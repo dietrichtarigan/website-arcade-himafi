@@ -1,39 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-import Image from 'next/image'
-
-const dummyCerita = [
-  {
-    id: 1,
-    nama: 'Ahmad Fauzi',
-    gambar: '/uploads/cerita1.jpg',
-    cerita: 'Setelah lulus dari Fisika ITB, saya memulai karier sebagai Data Scientist di startup teknologi. Pengalaman belajar fisika memberikan saya kemampuan analisis yang kuat dalam menghadapi masalah kompleks.',
-    publish_date: '2024-07-01'
-  },
-  {
-    id: 2,
-    nama: 'Sarah Putri',
-    gambar: '/uploads/cerita2.jpg',
-    cerita: 'Dari Fisika ITB ke Software Engineering di Google. Fisika mengajarkan saya cara berpikir sistematis yang sangat berguna dalam pengembangan software.',
-    publish_date: '2024-06-15'
-  },
-  {
-    id: 3,
-    nama: 'Budi Santoso',
-    gambar: '/uploads/cerita3.jpg',
-    cerita: 'Saya sekarang bekerja sebagai Research Analyst di lembaga penelitian. Ilmu fisika yang dipelajari di ITB menjadi fondasi kuat untuk karier riset saya.',
-    publish_date: '2024-05-20'
-  }
-]
-
 export default function CeritaKitaPage() {
-  const [selectedCerita, setSelectedCerita] = useState(null)
-
-  const publishedCerita = dummyCerita.filter(cerita => 
-    new Date(cerita.publish_date) <= new Date()
-  )
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -52,7 +19,7 @@ export default function CeritaKitaPage() {
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {publishedCerita.map(cerita => (
+            {dummyCerita.map(cerita => (
               <div key={cerita.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden">
                 <div className="p-6">
                   <div className="flex items-center mb-4">

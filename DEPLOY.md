@@ -261,7 +261,7 @@ Lihat file `INFOPROF-ADMIN-GUIDE.md` untuk panduan detail penggunaan admin dashb
 - Build logs untuk debugging
 
 ---
-
+git remote add origin https://github.com/dietrichtarigan/website-arcade-final
 ## 🔄 **Update & Maintenance**
 
 ### **1. Update Content**

@@ -1,8 +1,5 @@
 'use client'
 
-import { useState } from 'react'
-import Image from 'next/image'
-
 const dummyVisits = [
   {
     id: 1,
@@ -31,8 +28,6 @@ const dummyVisits = [
 ]
 
 export default function CompanyVisitPage() {
-  const [selectedVisit, setSelectedVisit] = useState(null)
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -51,7 +46,7 @@ export default function CompanyVisitPage() {
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {dummyVisits.map(visit => (
+            {dummyVisits.map((visit: any) => (
               <div key={visit.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden">
                 <div className="p-6">
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">{visit.perusahaan}</h3>
@@ -67,10 +62,8 @@ export default function CompanyVisitPage() {
                   <div className="mb-4">
                     <h4 className="text-sm font-medium text-gray-700 mb-2">Galeri Foto:</h4>
                     <div className="grid grid-cols-3 gap-2">
-                      {visit.galeri.map((foto, index) => (
-                        <div key={index} className="aspect-square bg-gray-200 rounded-lg flex items-center justify-center">
-                          <span className="text-xs text-gray-500">Foto {index + 1}</span>
-                        </div>
+                      {visit.galeri && visit.galeri.map((foto: string, index: number) => (
+                        <img key={index} src={foto} alt={`Galeri ${index + 1}`} className="w-20 h-20 object-cover rounded mr-2" />
                       ))}
                     </div>
                   </div>

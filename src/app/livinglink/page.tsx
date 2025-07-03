@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 
 export default function LivingLinkPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -31,12 +32,12 @@ export default function LivingLinkPage() {
             <p className="text-gray-600 mb-6">
               Data Anda telah berhasil dikirim. Tim ARCADE akan menghubungi Anda segera.
             </p>
-            <a
+            <Link
               href="/"
               className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Kembali ke Beranda
-            </a>
+            </Link>
           </div>
         </div>
       </div>
