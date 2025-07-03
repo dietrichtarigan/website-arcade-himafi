@@ -1,0 +1,35 @@
+backend:
+  name: github
+  repo: YOUR_USERNAME/website-arcade-final-1
+  branch: main
+  # NO NETLIFY IDENTITY BULLSHIT
+  
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+# Simple collections - NO ROLE DRAMA
+collections:
+  - name: "infoprof"
+    label: "Info Karier"
+    folder: "content/infoprof"
+    create: true
+    slug: "{{fields.judul}}-{{year}}-{{month}}-{{day}}"
+    fields:
+      - { label: "Judul", name: "judul", widget: "string" }
+      - { label: "Kategori", name: "kategori", widget: "select", options: ["Magang", "Beasiswa", "Lowongan"] }
+      - { label: "Tanggal Post", name: "tanggal_post", widget: "datetime" }
+      - { label: "Deskripsi", name: "deskripsi", widget: "text" }
+      - { label: "Link Utama", name: "link_utama", widget: "string", required: false }
+      - { label: "Email Kontak", name: "kontak_email", widget: "string", required: false }
+      - { label: "Sumber", name: "sumber", widget: "string" }
+      
+  - name: "alumni"
+    label: "Alumni"
+    folder: "content/alumni"
+    create: true
+    slug: "{{fields.nama}}-{{fields.angkatan}}"
+    fields:
+      - { label: "Nama", name: "nama", widget: "string" }
+      - { label: "Angkatan", name: "angkatan", widget: "string" }
+      - { label: "Bidang Karier", name: "bidang", widget: "string" }
+      - { label: "LinkedIn", name: "linkedin", widget: "string", required: false }
