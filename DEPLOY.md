@@ -1,4 +1,6 @@
-# 🚀 Panduan Deploy Website ARCADE HIMAFI ITB
+git add .
+git commit -m "Deploy update"
+git push origin main# 🚀 Panduan Deploy Website ARCADE HIMAFI ITB
 
 ## 📋 **Overview**
 Website ARCADE HIMAFI ITB adalah platform digital untuk divisi pengembangan karier dan hubungan alumni HIMAFI ITB. Website ini menggunakan Next.js, TailwindCSS, Netlify CMS, dan Supabase.
@@ -363,3 +365,7 @@ Setelah semua setup selesai, website ARCADE HIMAFI ITB siap digunakan dengan fit
 ✅ **Database** - Supabase untuk data dinamis  
 
 **Website siap membantu mahasiswa Fisika ITB menemukan peluang karier terbaik!** 🚀 
+
+git add package.json
+git commit -m "Fix: copy admin folder to out for Netlify CMS"
+git push origin main 
