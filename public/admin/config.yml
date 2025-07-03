@@ -25,10 +25,15 @@ collections:
     slug: "{{fields.judul}}-{{year}}-{{month}}-{{day}}"
     fields:
       - { label: "Judul", name: "judul", widget: "string" }
-      - { label: "Jenis", name: "jenis", widget: "select", options: ["Magang", "Lowongan Kerja", "Beasiswa"] }
-      - { label: "Tanggal Posting", name: "tanggal", widget: "datetime" }
+      - { label: "Kategori", name: "kategori", widget: "select", options: ["Magang", "Beasiswa", "Lowongan"] }
+      - { label: "Tanggal Post", name: "tanggal_post", widget: "datetime" }
       - { label: "Deskripsi", name: "deskripsi", widget: "text" }
-      - { label: "Link", name: "link", widget: "string", required: false }
+      - { label: "Link Utama", name: "link_utama", widget: "string", required: false }
+      - { label: "Link Tambahan", name: "link_tambahan", widget: "list", required: false, field: { label: "Link", name: "link", widget: "string" } }
+      - { label: "Email Kontak", name: "kontak_email", widget: "string", required: false }
+      - { label: "WhatsApp Kontak", name: "kontak_wa", widget: "string", required: false }
+      - { label: "Sumber", name: "sumber", widget: "string" }
+      - { label: "Poster", name: "poster_filename", widget: "image", required: false }
       - { label: "Arsipkan?", name: "arsip", widget: "boolean", required: false }
   - name: "ceritakita"
     label: "CeritaKita"

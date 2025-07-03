@@ -20,10 +20,17 @@ export interface Alumni {
 export interface InfoProf {
   id: number
   judul: string
-  jenis: 'Magang' | 'Lowongan Kerja' | 'Beasiswa'
-  tanggal: string
+  kategori: 'Magang' | 'Beasiswa' | 'Lowongan'
+  tanggal_post: string
   deskripsi: string
-  link?: string
+  link_utama?: string
+  link_tambahan?: string[]
+  kontak?: {
+    email?: string
+    wa?: string
+  }
+  sumber: string
+  poster_filename?: string
   arsip?: boolean
   created_at: string
 }
