@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build && next export && cp -r public/admin out/admin",
-    "start": "next start",
+    "clean": "rm -rf .next out",
+    "build": "next build && cp -r public/admin out/admin",
+    "start": "npx serve out",
     "lint": "next lint"
   },
   "dependencies": {
