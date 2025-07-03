@@ -2,22 +2,10 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "/public/uploads"
+media_folder: "public/uploads"
 public_folder: "/uploads"
 
 collections:
-  - name: "alumni"
-    label: "Alumni (ALIVE)"
-    folder: "content/alumni"
-    create: true
-    slug: "{{fields.nama}}-{{fields.angkatan}}"
-    fields:
-      - { label: "Nama", name: "nama", widget: "string" }
-      - { label: "Angkatan", name: "angkatan", widget: "string" }
-      - { label: "Bidang Karier", name: "bidang", widget: "string" }
-      - { label: "LinkedIn", name: "linkedin", widget: "string", required: false }
-      - { label: "Foto", name: "foto", widget: "image", required: false }
-      - { label: "Keterhubungan", name: "keterhubungan", widget: "string", required: false }
   - name: "infoprof"
     label: "Info Karier (INFOPROF)"
     folder: "content/infoprof"
@@ -35,6 +23,18 @@ collections:
       - { label: "Sumber", name: "sumber", widget: "string" }
       - { label: "Poster", name: "poster_filename", widget: "image", required: false }
       - { label: "Arsipkan?", name: "arsip", widget: "boolean", required: false }
+  - name: "alumni"
+    label: "Alumni (ALIVE)"
+    folder: "content/alumni"
+    create: true
+    slug: "{{fields.nama}}-{{fields.angkatan}}"
+    fields:
+      - { label: "Nama", name: "nama", widget: "string" }
+      - { label: "Angkatan", name: "angkatan", widget: "string" }
+      - { label: "Bidang Karier", name: "bidang", widget: "string" }
+      - { label: "LinkedIn", name: "linkedin", widget: "string", required: false }
+      - { label: "Foto", name: "foto", widget: "image", required: false }
+      - { label: "Keterhubungan", name: "keterhubungan", widget: "string", required: false }
   - name: "ceritakita"
     label: "CeritaKita"
     folder: "content/ceritakita"
