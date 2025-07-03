@@ -1,9 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
+import { getInfoProfPosts } from '@/lib/content'
 
 interface InfoProfPost {
   id: string
@@ -19,81 +17,32 @@ interface InfoProfPost {
   [key: string]: any
 }
 
-// Fungsi untuk mendapatkan data dari folder content
-function getStaticInfoProf() {
-  // Implementasi dummy untuk client-side
-  // Data sebenarnya akan diambil saat build di Netlify
-  return [
-    {
-      id: 'magang-telkom-2024-07-01',
-      judul: 'Magang Data Scientist di Telkom',
-      kategori: 'Magang',
-      tanggal_post: '2024-07-01T00:00:00.000Z',
-      deskripsi: 'Program magang data scientist di Telkom Indonesia',
-      link_utama: 'https://telkom.co.id',
-      kontak_email: 'recruitment@telkom.co.id',
-      sumber: 'Telkom Indonesia',
-      content: '',
-      arsip: false
-    },
-    {
-      id: 'magang-brin-2025',
-      judul: 'Magang BRIN Batch 1 – 2025',
-      kategori: 'Magang',
-      tanggal_post: '2024-07-01T00:00:00.000Z',
-      deskripsi: 'Program magang nasional dari BRIN untuk mahasiswa yang tertarik menekuni dunia riset dan inovasi langsung bersama peneliti.',
-      link_utama: 'https://elsa.brin.go.id',
-      kontak_email: 'mbkm@brin.go.id',
-      sumber: 'BRIN - Direktorat Manajemen Talenta',
-      content: '',
-      arsip: false
-    }
-  ]
-}
-
 export default function InfoProfPage() {
   const [allInfo, setAllInfo] = useState<InfoProfPost[]>([])
   const [filteredInfo, setFilteredInfo] = useState<InfoProfPost[]>([])
   const [selectedKategori, setSelectedKategori] = useState('Semua')
   const [selectedArsip, setSelectedArsip] = useState('Aktif')
-  const [isLoading, setIsLoading] = useState(true)
 
-  // Load CMS content on component mount
+  // Load content on component mount
   useEffect(() => {
-    // Fetch data from the API endpoint that will provide content data
-    async function fetchContent() {
+    const loadContent = async () => {
       try {
-        // Fetch from API in production, use static data for development/preview
-        if (process.env.NODE_ENV === 'development') {
-          const data = getStaticInfoProf()
-          setAllInfo(data)
-          setFilteredInfo(data)
-        } else {
-          // In production, fetch from API endpoint
-          const response = await fetch('/api/content/infoprof')
-          if (!response.ok) throw new Error('Failed to fetch content')
-          const { posts } = await response.json()
-          setAllInfo(posts)
-          setFilteredInfo(posts)
-        }
+        const posts = getInfoProfPosts()
+        setAllInfo(posts)
+        setFilteredInfo(posts)
       } catch (error) {
         console.error('Error loading content:', error)
-        // Fallback to static data if API fails
-        const data = getStaticInfoProf()
-        setAllInfo(data)
-        setFilteredInfo(data)
-      } finally {
-        setIsLoading(false)
+        // Fallback to empty array if there's an error
+        setAllInfo([])
+        setFilteredInfo([])
       }
     }
-
-    fetchContent()
+    
+    loadContent()
   }, [])
 
   // Filter content when filters change
   useEffect(() => {
-    if (!allInfo) return
-    
     const filtered = allInfo.filter(info => {
       const kategoriMatch = selectedKategori === 'Semua' || info.kategori === selectedKategori
       const arsipMatch = selectedArsip === 'Semua' || 
@@ -186,12 +135,7 @@ export default function InfoProfPage() {
       {/* Info Grid */}
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {isLoading ? (
-            <div className="text-center py-12">
-              <div className="animate-spin w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full mx-auto mb-4"></div>
-              <p className="text-gray-600">Memuat info karier...</p>
-            </div>
-          ) : filteredInfo.length > 0 ? (
+          {filteredInfo.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredInfo.map(info => (
                 <div key={info.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden">
