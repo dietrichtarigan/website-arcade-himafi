@@ -5,6 +5,19 @@
 [build.environment]
   NODE_VERSION = "18"
 
+# Redirect confirmation emails to custom handler
+[[redirects]]
+  from = "/*"
+  to = "/confirm.html"
+  status = 200
+  conditions = {Query = {confirmation_token = ":token"}}
+
+[[redirects]]
+  from = "/*"
+  to = "/confirm.html"
+  status = 200
+  conditions = {Query = {recovery_token = ":token"}}
+
 [[redirects]]
   from = "/admin/*"
   to = "/admin/index.html"

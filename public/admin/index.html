@@ -7,10 +7,26 @@
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   <body>
+    <!-- Loading message -->
+    <div id="loading" style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+      <h2>🔐 ARCADE HIMAFI Admin Panel</h2>
+      <p>Loading admin interface...</p>
+      <div style="margin-top: 20px;">
+        <div style="border: 2px solid #f3f3f3; border-top: 2px solid #3498db; border-radius: 50%; width: 30px; height: 30px; animation: spin 2s linear infinite; margin: 0 auto;"></div>
+      </div>
+    </div>
+    
     <!-- Development warning -->
     <div id="dev-warning" style="background: #ff6b6b; color: white; padding: 10px; text-align: center; display: none;">
       <strong>⚠️ Mode Development:</strong> Admin panel hanya berfungsi setelah di-deploy ke Netlify dengan Identity enabled
     </div>
+    
+    <style>
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
     
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
     
@@ -22,13 +38,54 @@
       
       // Initialize Netlify Identity
       if (window.netlifyIdentity) {
+        // Handle confirmation token in URL
         window.netlifyIdentity.on("init", user => {
+          console.log('Identity initialized, user:', user);
+          
+          // Hide loading after init
+          document.getElementById('loading').style.display = 'none';
+          
           if (!user) {
+            // Check if we have confirmation token in URL
+            const hash = window.location.hash;
+            if (hash && hash.includes('confirmation_token')) {
+              console.log('Found confirmation token, opening identity widget');
+              window.netlifyIdentity.open();
+            }
+            
+            // Handle successful login
             window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
+              console.log('User logged in, redirecting to admin');
+              window.location.href = "/admin/";
             });
+            
+            // Handle successful signup
+            window.netlifyIdentity.on("signup", () => {
+              console.log('User signed up');
+              window.netlifyIdentity.open();
+            });
+          } else {
+            console.log('User already logged in:', user);
+            // User is already logged in, CMS should load automatically
           }
         });
+        
+        // Handle errors
+        window.netlifyIdentity.on("error", err => {
+          console.error('Netlify Identity error:', err);
+          alert('Authentication error: ' + err.message);
+        });
+        
+        // Handle close events
+        window.netlifyIdentity.on("close", () => {
+          console.log('Identity widget closed');
+        });
+        
+        // Initialize identity
+        window.netlifyIdentity.init();
+      } else {
+        console.error('Netlify Identity widget not loaded');
+        document.getElementById('loading').innerHTML = '<h2>❌ Error</h2><p>Netlify Identity widget failed to load</p>';
       }
     </script>
   </body>

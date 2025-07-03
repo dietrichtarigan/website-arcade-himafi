@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "INFOPROF-ADMIN-GUIDE.md",
+                "file": "ADMIN-TROUBLESHOOTING.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "INFOPROF-ADMIN-GUIDE"
+              "title": "ADMIN-TROUBLESHOOTING"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "INFOPROF-ADMIN-GUIDE.md",
+                "file": "ADMIN-TROUBLESHOOTING.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for INFOPROF-ADMIN-GUIDE"
+              "title": "Backlinks for ADMIN-TROUBLESHOOTING"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "INFOPROF-ADMIN-GUIDE.md",
+                "file": "ADMIN-TROUBLESHOOTING.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from INFOPROF-ADMIN-GUIDE"
+              "title": "Outgoing links from ADMIN-TROUBLESHOOTING"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "INFOPROF-ADMIN-GUIDE.md",
+                "file": "ADMIN-TROUBLESHOOTING.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of INFOPROF-ADMIN-GUIDE"
+              "title": "Outline of ADMIN-TROUBLESHOOTING"
             }
           }
         ]
@@ -170,24 +170,25 @@
   },
   "active": "753ff2a3299e2ef1",
   "lastOpenFiles": [
-    "ADMIN-TROUBLESHOOTING.md",
+    "ADMIN-LOGIN-FIX.md",
     "out/admin/admin/index.html",
     "out/admin/admin/config.yml",
     "out/admin/admin",
-    "out/_next/static/jdWASbjFw94OGNcPkAmlV/_ssgManifest.js",
-    "out/_next/static/jdWASbjFw94OGNcPkAmlV/_buildManifest.js",
-    "out/_next/static/jdWASbjFw94OGNcPkAmlV",
-    "out/_next/jdWASbjFw94OGNcPkAmlV",
+    "out/livinglink/index.txt",
+    "out/livinglink/index.html",
+    "out/livinglink",
+    "out/ceritakita/index.txt",
+    "out/ceritakita/index.html",
+    "out/ceritakita",
+    "out/infoprof/index.txt",
+    "INFOPROF-ADMIN-GUIDE.md",
+    "ADMIN-TROUBLESHOOTING.md",
     "out/window.svg",
-    "out/uploads",
     "out/vercel.svg",
     "out/next.svg",
     "out/globe.svg",
     "out/file.svg",
-    "node_modules/@tailwindcss/oxide-darwin-x64",
-    "node_modules/@next/swc-linux-x64-musl",
     "DEPLOY.md",
-    "INFOPROF-ADMIN-GUIDE.md",
     "README.md",
     "content/infoprof/magang-brin-2025.md"
   ]
