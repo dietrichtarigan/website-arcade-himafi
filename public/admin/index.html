@@ -2,9 +2,34 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ARCADE HIMAFI Admin</title>
-    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   <body>
+    <!-- Development warning -->
+    <div id="dev-warning" style="background: #ff6b6b; color: white; padding: 10px; text-align: center; display: none;">
+      <strong>⚠️ Mode Development:</strong> Admin panel hanya berfungsi setelah di-deploy ke Netlify dengan Identity enabled
+    </div>
+    
+    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    
+    <script>
+      // Show development warning if not on Netlify
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        document.getElementById('dev-warning').style.display = 'block';
+      }
+      
+      // Initialize Netlify Identity
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+      }
+    </script>
   </body>
 </html>
