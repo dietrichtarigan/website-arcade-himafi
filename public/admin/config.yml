@@ -1,6 +1,15 @@
 backend:
   name: git-gateway
   branch: main
+  # Allow users without specific roles to access
+  accept_roles: #optional - accepts all users if left out
+    - admin
+    - editor
+  # Squash merge GitHub PRs
+  squash_merges: true
+
+# Optional: Authentication
+# publish_mode: editorial_workflow # Enable draft/review workflow
 
 media_folder: "public/uploads"
 public_folder: "/uploads"

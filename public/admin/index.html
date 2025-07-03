@@ -7,6 +7,16 @@
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   <body>
+    <!-- Email confirmation notice -->
+    <div id="email-notice" style="background: #f39c12; color: white; padding: 15px; text-align: center; display: none; font-family: Arial, sans-serif;">
+      <strong>📧 Email Belum Dikonfirmasi</strong><br>
+      Silakan cek email dan klik link konfirmasi. Jika tidak ada email, hubungi admin untuk invitation manual.
+      <br><br>
+      <button onclick="requestInvite()" style="background: white; color: #f39c12; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+        Request Manual Invitation
+      </button>
+    </div>
+    
     <!-- Loading message -->
     <div id="loading" style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
       <h2>🔐 ARCADE HIMAFI Admin Panel</h2>
@@ -19,6 +29,21 @@
     <!-- Development warning -->
     <div id="dev-warning" style="background: #ff6b6b; color: white; padding: 10px; text-align: center; display: none;">
       <strong>⚠️ Mode Development:</strong> Admin panel hanya berfungsi setelah di-deploy ke Netlify dengan Identity enabled
+    </div>
+    
+    <!-- Manual admin instructions -->
+    <div id="manual-admin" style="background: #2c3e50; color: white; padding: 20px; margin: 20px; border-radius: 8px; display: none; font-family: Arial, sans-serif;">
+      <h3>🔧 Manual Admin Setup Required</h3>
+      <p><strong>Untuk Admin Website:</strong></p>
+      <ol>
+        <li>Login ke <a href="https://app.netlify.com" target="_blank" style="color: #3498db;">Netlify Dashboard</a></li>
+        <li>Pilih site: <strong>arcadehimafi</strong></li>
+        <li>Go to: <strong>Site Settings → Identity → Users</strong></li>
+        <li>Klik <strong>"Invite User"</strong></li>
+        <li>Input email user yang perlu akses admin</li>
+        <li>User akan dapat invitation email yang bisa langsung digunakan</li>
+      </ol>
+      <p><strong>Alternatif:</strong> Manually confirm existing users di Users list.</p>
     </div>
     
     <style>
@@ -36,9 +61,14 @@
         document.getElementById('dev-warning').style.display = 'block';
       }
       
+      // Function to request manual invitation
+      function requestInvite() {
+        document.getElementById('manual-admin').style.display = 'block';
+        document.getElementById('email-notice').style.display = 'none';
+      }
+      
       // Initialize Netlify Identity
       if (window.netlifyIdentity) {
-        // Handle confirmation token in URL
         window.netlifyIdentity.on("init", user => {
           console.log('Identity initialized, user:', user);
           
@@ -48,32 +78,71 @@
           if (!user) {
             // Check if we have confirmation token in URL
             const hash = window.location.hash;
+            const urlParams = new URLSearchParams(window.location.search);
+            
             if (hash && hash.includes('confirmation_token')) {
-              console.log('Found confirmation token, opening identity widget');
+              console.log('Found confirmation token in hash, opening identity widget');
+              window.netlifyIdentity.open();
+            } else if (urlParams.get('confirmation_token')) {
+              console.log('Found confirmation token in params, opening identity widget');
               window.netlifyIdentity.open();
             }
             
             // Handle successful login
-            window.netlifyIdentity.on("login", () => {
-              console.log('User logged in, redirecting to admin');
-              window.location.href = "/admin/";
+            window.netlifyIdentity.on("login", (user) => {
+              console.log('User logged in:', user);
+              
+              // Check if email is confirmed
+              if (user && !user.email_confirmed_at) {
+                console.log('Email not confirmed, showing notice');
+                document.getElementById('email-notice').style.display = 'block';
+                
+                // Don't auto-logout, let user see the notice
+                alert('⚠️ Email belum dikonfirmasi!\n\nSilakan:\n1. Cek email dan klik link konfirmasi\n2. Atau hubungi admin untuk manual invitation');
+              } else {
+                console.log('Email confirmed, allowing access to CMS');
+                document.getElementById('email-notice').style.display = 'none';
+                // Don't redirect, let CMS load naturally
+              }
             });
             
             // Handle successful signup
-            window.netlifyIdentity.on("signup", () => {
-              console.log('User signed up');
-              window.netlifyIdentity.open();
+            window.netlifyIdentity.on("signup", (user) => {
+              console.log('User signed up:', user);
+              alert('📧 Email konfirmasi telah dikirim!\n\nSilakan:\n1. Cek email Anda (termasuk spam folder)\n2. Klik link konfirmasi\n3. Login kembali');
             });
           } else {
             console.log('User already logged in:', user);
-            // User is already logged in, CMS should load automatically
+            
+            // Check if current user email is confirmed
+            if (!user.email_confirmed_at) {
+              console.log('Current user email not confirmed');
+              document.getElementById('email-notice').style.display = 'block';
+              alert('⚠️ Email belum dikonfirmasi!\n\nAnda sudah login tetapi email belum ter-verifikasi.\nSilakan konfirmasi email atau hubungi admin.');
+            } else {
+              console.log('User email confirmed, CMS ready');
+              document.getElementById('email-notice').style.display = 'none';
+              // User is confirmed and logged in, CMS should load automatically
+            }
           }
+        });
+        
+        // Handle confirmation events
+        window.netlifyIdentity.on("confirm", (user) => {
+          console.log('User confirmed:', user);
+          alert('✅ Email berhasil dikonfirmasi!\n\nAnda sekarang bisa menggunakan admin panel.');
+          window.location.reload(); // Reload to initialize CMS
         });
         
         // Handle errors
         window.netlifyIdentity.on("error", err => {
           console.error('Netlify Identity error:', err);
-          alert('Authentication error: ' + err.message);
+          
+          if (err.message && (err.message.includes('email_not_confirmed') || err.message.includes('Email not confirmed'))) {
+            document.getElementById('email-notice').style.display = 'block';
+          } else {
+            alert('❌ Authentication error: ' + err.message);
+          }
         });
         
         // Handle close events
@@ -85,7 +154,7 @@
         window.netlifyIdentity.init();
       } else {
         console.error('Netlify Identity widget not loaded');
-        document.getElementById('loading').innerHTML = '<h2>❌ Error</h2><p>Netlify Identity widget failed to load</p>';
+        document.getElementById('loading').innerHTML = '<h2>❌ Error</h2><p>Netlify Identity widget failed to load. Please refresh the page.</p>';
       }
     </script>
   </body>

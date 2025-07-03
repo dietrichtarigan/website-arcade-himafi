@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ADMIN-TROUBLESHOOTING.md",
+                "file": "ADMIN-LOGIN-FIX.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ADMIN-TROUBLESHOOTING"
+              "title": "ADMIN-LOGIN-FIX"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "ADMIN-TROUBLESHOOTING.md",
+                "file": "ADMIN-LOGIN-FIX.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for ADMIN-TROUBLESHOOTING"
+              "title": "Backlinks for ADMIN-LOGIN-FIX"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "ADMIN-TROUBLESHOOTING.md",
+                "file": "ADMIN-LOGIN-FIX.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from ADMIN-TROUBLESHOOTING"
+              "title": "Outgoing links from ADMIN-LOGIN-FIX"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "ADMIN-TROUBLESHOOTING.md",
+                "file": "ADMIN-LOGIN-FIX.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of ADMIN-TROUBLESHOOTING"
+              "title": "Outline of ADMIN-LOGIN-FIX"
             }
           }
         ]
@@ -170,19 +170,21 @@
   },
   "active": "753ff2a3299e2ef1",
   "lastOpenFiles": [
-    "ADMIN-LOGIN-FIX.md",
+    "FINAL-EMAIL-SOLUTION.md",
     "out/admin/admin/index.html",
     "out/admin/admin/config.yml",
     "out/admin/admin",
-    "out/livinglink/index.txt",
-    "out/livinglink/index.html",
-    "out/livinglink",
     "out/ceritakita/index.txt",
     "out/ceritakita/index.html",
     "out/ceritakita",
-    "out/infoprof/index.txt",
-    "INFOPROF-ADMIN-GUIDE.md",
+    "out/about/index.html",
+    "out/about/index.txt",
+    "out/about",
+    "out/contact/index.txt",
     "ADMIN-TROUBLESHOOTING.md",
+    "EMAIL-CONFIRMATION-FIX.md",
+    "ADMIN-LOGIN-FIX.md",
+    "INFOPROF-ADMIN-GUIDE.md",
     "out/window.svg",
     "out/vercel.svg",
     "out/next.svg",
