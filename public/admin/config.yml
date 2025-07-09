@@ -28,10 +28,11 @@ collections:
       - { label: "Kategori", name: "kategori", widget: "select", options: ["Magang", "Beasiswa", "Lowongan", "Sertifikasi", "Kompetisi"] }
       - { label: "Tanggal Post", name: "tanggal_post", widget: "datetime", format: "YYYY-MM-DD HH:mm:ss" }
       - { label: "Deskripsi Singkat", name: "deskripsi", widget: "text", hint: "Deskripsi singkat untuk preview" }
+      - { label: "Poster/Gambar", name: "poster_url", widget: "image", required: false, hint: "Upload poster atau gambar untuk info karier" }
       - { label: "Konten Detail", name: "body", widget: "markdown", hint: "Konten lengkap artikel" }
       - { label: "Link Utama", name: "link_utama", widget: "string", required: false, hint: "Link untuk mendaftar atau informasi lebih lanjut" }
       - { label: "Email Kontak", name: "kontak_email", widget: "string", required: false, pattern: ['^[^\s@]+@[^\s@]+\.[^\s@]+$', 'Email tidak valid'] }
-      - { label: "Sumber", name: "sumber", widget: "string", hint: "Sumber informasi" }
+      - { label: "Sumber", name: "sumber", widget: "string", required: false, hint: "Sumber informasi" }
       - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
       - { label: "Tags", name: "tags", widget: "list", required: false, hint: "Tag untuk pencarian" }
       - { label: "Deadline", name: "deadline", widget: "datetime", required: false }

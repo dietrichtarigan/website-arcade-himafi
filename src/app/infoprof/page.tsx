@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import ResponsivePoster from '../../components/ResponsivePoster'
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
@@ -15,6 +16,7 @@ interface InfoProfPost {
   kontak_email?: string
   sumber: string
   content: string
+  poster_url?: string
   arsip?: boolean
   [key: string]: any
 }
@@ -63,18 +65,32 @@ export default function InfoProfPage() {
     // Fetch data from the API endpoint that will provide content data
     async function fetchContent() {
       try {
-        // Fetch from API in production, use static data for development/preview
-        if (process.env.NODE_ENV === 'development') {
+        const response = await fetch('/api/content/infoprof')
+        if (!response.ok) throw new Error('Failed to fetch content')
+        const result = await response.json()
+        
+        if (result.success && result.data) {
+          const processedData = result.data.map((item: any) => ({
+            id: item.slug,
+            judul: item.judul || 'No Title',
+            kategori: item.kategori || 'Lainnya',
+            tanggal_post: item.tanggal_post || new Date().toISOString(),
+            deskripsi: item.deskripsi || 'No description',
+            link_utama: item.link_utama,
+            kontak_email: item.kontak_email,
+            sumber: item.sumber,
+            content: item.content || '',
+            poster_url: item.poster_url,
+            deadline: item.deadline,
+            arsip: item.arsip || false
+          }))
+          setAllInfo(processedData)
+          setFilteredInfo(processedData)
+        } else {
+          // Fallback to static data if API response is not valid
           const data = getStaticInfoProf()
           setAllInfo(data)
           setFilteredInfo(data)
-        } else {
-          // In production, fetch from API endpoint
-          const response = await fetch('/api/content/infoprof')
-          if (!response.ok) throw new Error('Failed to fetch content')
-          const { posts } = await response.json()
-          setAllInfo(posts)
-          setFilteredInfo(posts)
         }
       } catch (error) {
         console.error('Error loading content:', error)
@@ -128,6 +144,30 @@ export default function InfoProfPage() {
       })
     } catch {
       return dateString
+    }
+  }
+
+  const formatDeadline = (deadlineString: string) => {
+    try {
+      const deadline = new Date(deadlineString)
+      return deadline.toLocaleDateString('id-ID', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      })
+    } catch {
+      return deadlineString
+    }
+  }
+
+  const isDeadlineClose = (deadlineString: string) => {
+    try {
+      const deadline = new Date(deadlineString)
+      const now = new Date()
+      const diffDays = Math.ceil((deadline.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+      return diffDays <= 7 // Deadline dalam 7 hari atau sudah lewat
+    } catch {
+      return false
     }
   }
 
@@ -194,25 +234,85 @@ export default function InfoProfPage() {
           ) : filteredInfo.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredInfo.map(info => (
-                <div key={info.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden">
-                  {/* Header */}
+                <div 
+                  key={info.id} 
+                  className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden cursor-pointer group"
+                  onClick={() => window.open(`/infoprof/${info.id}`, '_blank')}
+                >
+                  {/* Poster Image */}
+                  {info.poster_url && (
+                    <ResponsivePoster
+                      src={info.poster_url}
+                      alt={info.judul}
+                      className="group-hover:scale-[1.02]"
+                      showOverlay={false}
+                      overlayContent={
+                        <div className="absolute inset-0 pointer-events-auto">
+                          <div className="absolute top-4 left-4 z-10">
+                            <span className={`px-3 py-1 text-sm font-medium rounded-full shadow-sm ${getKategoriColor(info.kategori)}`}>
+                              {info.kategori}
+                            </span>
+                          </div>
+                          {/* Deadline badge on poster */}
+                          {info.deadline && (
+                            <div className="absolute top-4 right-4 z-10">
+                              <span className={`px-2 py-1 text-xs font-bold rounded shadow-sm ${
+                                isDeadlineClose(info.deadline) 
+                                  ? 'bg-red-500 text-white' 
+                                  : 'bg-orange-500 text-white'
+                              }`}>
+                                ⏰ {formatDeadline(info.deadline)}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      }
+                    />
+                  )}
+                  
+                  {/* Content */}
                   <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <span className={`px-3 py-1 text-sm font-medium rounded-full ${getKategoriColor(info.kategori)}`}>
-                        {info.kategori}
-                      </span>
-                      <span className="text-sm text-gray-500">
-                        {formatDate(info.tanggal_post)}
-                      </span>
-                    </div>
+                    {/* Header (only show if no poster) */}
+                    {!info.poster_url && (
+                      <div className="flex items-start justify-between mb-4">
+                        <span className={`px-3 py-1 text-sm font-medium rounded-full ${getKategoriColor(info.kategori)}`}>
+                          {info.kategori}
+                        </span>
+                        <span className="text-sm text-gray-500">
+                          {formatDate(info.tanggal_post)}
+                        </span>
+                      </div>
+                    )}
                     
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">
+                    {/* Date (show for cards with poster) */}
+                    {info.poster_url && (
+                      <div className="mb-3">
+                        <span className="text-sm text-gray-500">
+                          {formatDate(info.tanggal_post)}
+                        </span>
+                      </div>
+                    )}
+                    
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
                       {info.judul}
                     </h3>
                     
                     <p className="text-gray-600 mb-4 text-sm leading-relaxed">
                       {info.deskripsi}
                     </p>
+
+                    {/* Deadline (show for cards without poster) */}
+                    {!info.poster_url && info.deadline && (
+                      <div className="mb-4">
+                        <span className={`inline-flex items-center px-3 py-1 text-sm font-bold rounded ${
+                          isDeadlineClose(info.deadline) 
+                            ? 'bg-red-100 text-red-800' 
+                            : 'bg-orange-100 text-orange-800'
+                        }`}>
+                          ⏰ Deadline: {formatDeadline(info.deadline)}
+                        </span>
+                      </div>
+                    )}
                     
                     {/* Links */}
                     {info.link_utama && (
@@ -221,6 +321,7 @@ export default function InfoProfPage() {
                           href={info.link_utama}
                           target="_blank"
                           rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()} // Prevent card click
                           className="inline-flex items-center text-green-600 hover:text-green-700 font-medium text-sm"
                         >
                           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -237,6 +338,7 @@ export default function InfoProfPage() {
                         <span className="text-sm text-gray-500">Kontak: </span>
                         <a 
                           href={`mailto:${info.kontak_email}`}
+                          onClick={(e) => e.stopPropagation()} // Prevent card click
                           className="text-sm text-blue-600 hover:text-blue-700"
                         >
                           {info.kontak_email}
@@ -245,8 +347,17 @@ export default function InfoProfPage() {
                     )}
                     
                     {/* Source */}
-                    <div className="text-sm text-gray-500 border-t pt-3">
-                      <span className="font-medium">Sumber:</span> {info.sumber}
+                    {info.sumber && (
+                      <div className="text-sm text-gray-500 border-t pt-3">
+                        <span className="font-medium">Sumber:</span> {info.sumber}
+                      </div>
+                    )}
+
+                    {/* Click to view more indicator */}
+                    <div className="mt-4 pt-3 border-t border-gray-100">
+                      <span className="text-sm text-green-600 font-medium group-hover:text-green-700">
+                        Klik untuk lihat detail lengkap →
+                      </span>
                     </div>
                   </div>
                 </div>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARCADE HIMAFI CMS Admin Panel</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    :root {
+      --primary-color: #3b82f6;
+      --secondary-color: #1e40af;
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --error-color: #ef4444;
+      --bg-color: #f8fafc;
+      --surface-color: #ffffff;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --border-color: #e2e8f0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    /* Loading Screen */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+
+    .loading-content {
+      text-align: center;
+      max-width: 400px;
+      padding: 2rem;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 2rem;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .loading-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .loading-subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    .loading-status {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      min-height: 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Hide loading when CMS is ready */
+    .cms-loaded #loading-screen {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* CMS Customizations */
+    .cms-loaded {
+      --primary: var(--primary-color);
+      --primaryLight: #dbeafe;
+      --primaryDark: var(--secondary-color);
+    }
+  </style>
+</head>
+<body>
+  <!-- Enhanced Loading Screen -->
+  <div id="loading-screen">
+    <div class="loading-content">
+      <div class="logo">🎯</div>
+      <h1 class="loading-title">ARCADE HIMAFI</h1>
+      <p class="loading-subtitle">Admin Content Management System</p>
+      <div class="loading-spinner"></div>
+      <p id="loading-status" class="loading-status">Memuat sistem...</p>
+    </div>
+  </div>
+
+  <!-- Netlify CMS -->
+  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+
+  <script>
+    // Enhanced admin panel initialization
+    const AdminPanel = {
+      status: document.getElementById('loading-status'),
+      
+      log(message, type = 'info') {
+        console.log(`[ADMIN-${type.toUpperCase()}]`, message);
+        this.status.textContent = message;
+      },
+
+      init() {
+        this.log('Inisialisasi sistem admin...');
+        this.setupNetlifyIdentity();
+        this.setupCMS();
+        this.setupEventListeners();
+      },
+
+      setupNetlifyIdentity() {
+        if (!window.netlifyIdentity) {
+          this.log('❌ Netlify Identity tidak tersedia', 'error');
+          return;
+        }
+
+        this.log('🔐 Mengatur autentikasi...');
+
+        // Identity event handlers
+        window.netlifyIdentity.on('init', user => {
+          this.log(user ? `👋 Selamat datang, ${user.email}` : '🔑 Silakan login untuk melanjutkan');
+        });
+
+        window.netlifyIdentity.on('login', user => {
+          this.log(`✅ Login berhasil: ${user.email}`, 'success');
+          window.netlifyIdentity.close();
+          setTimeout(() => this.checkCMSReady(), 1000);
+        });
+
+        window.netlifyIdentity.on('logout', () => {
+          this.log('👋 Logout berhasil');
+          window.location.reload();
+        });
+
+        window.netlifyIdentity.on('error', err => {
+          this.log(`❌ Error autentikasi: ${err.message}`, 'error');
+        });
+      },
+
+      setupCMS() {
+        this.log('🎨 Mengatur CMS...');
+        
+        // Custom CMS event handlers
+        window.CMS?.registerEventListener({
+          name: 'prePublish',
+          handler: ({ author, entry }) => {
+            this.log(`📝 Menyimpan: ${entry.get('title') || entry.get('judul') || 'Untitled'}`);
+            return entry;
+          }
+        });
+
+        // Check CMS readiness periodically
+        setTimeout(() => this.checkCMSReady(), 3000);
+      },
+
+      checkCMSReady() {
+        const cmsRoot = document.querySelector('#nc-root');
+        const cmsApp = cmsRoot?.querySelector('[data-testid="app"]') || cmsRoot?.children[0];
+        
+        if (cmsApp) {
+          this.log('🚀 CMS siap digunakan!', 'success');
+          setTimeout(() => {
+            document.body.classList.add('cms-loaded');
+          }, 500);
+        } else {
+          setTimeout(() => this.checkCMSReady(), 1000);
+        }
+      },
+
+      setupEventListeners() {
+        // Global error handler
+        window.addEventListener('error', (event) => {
+          console.error('[ADMIN-ERROR]', event.error);
+          this.log('❌ Terjadi kesalahan, silakan refresh halaman', 'error');
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+          if (e.ctrlKey || e.metaKey) {
+            switch(e.key) {
+              case 's':
+                e.preventDefault();
+                this.log('💾 Gunakan tombol Save di CMS untuk menyimpan');
+                break;
+            }
+          }
+        });
+      }
+    };
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => AdminPanel.init());
+    } else {
+      AdminPanel.init();
+    }
+
+    // Auto-hide loading after timeout
+    setTimeout(() => {
+      if (!document.body.classList.contains('cms-loaded')) {
+        AdminPanel.log('⚠️ Loading memakan waktu lama, coba refresh halaman', 'warning');
+      }
+    }, 10000);
+  </script>
+
+  <!-- Custom CMS Configurations -->
+  <script>
+    // Custom field previews and validations
+    window.CMS?.registerPreviewStyle('/admin/preview.css');
+    
+    // Custom widgets if needed
+    window.CMS?.registerWidget('customDate', 'datetime', {
+      pattern: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/,
+      dateFormat: 'YYYY-MM-DD',
+      timeFormat: 'HH:mm:ss'
+    });
+  </script>
+</body>
+</html>
+
+        const hash = window.location.hash;
+        
+        if (hash && (hash.includes('confirmation_token') || hash.includes('recovery_token'))) {
+          log('Token konfirmasi ditemukan, membuka widget...');
+          window.netlifyIdentity.open();
+        } else if (!user) {
+          log('Belum login, silakan klik tombol login...');
+        } else {
+          log('User sudah login: ' + user.email);
+        }
+      });
+
+      window.netlifyIdentity.on("login", user => {
+        log('Login berhasil: ' + user.email);
+        setTimeout(() => {
+          document.getElementById('loading').style.display = 'none';
+        }, 2000);
+      });
+
+      window.netlifyIdentity.on("error", err => {
+        log('Error: ' + err.message);
+        console.error('Netlify Identity error:', err);
+      });
+
+      // Init identity
+      window.netlifyIdentity.init();
+    } else {
+      log('ERROR: Netlify Identity tidak dapat dimuat!');
+    }
+
+    // Fallback: Hide loading after 10 seconds
+    setTimeout(() => {
+      if (document.getElementById('loading').style.display !== 'none') {
+        document.getElementById('loading').innerHTML = `
+          <h1>🔐 ARCADE HIMAFI Admin Panel</h1>
+          <p><strong>Admin panel siap!</strong></p>
+          <p>Jika CMS tidak muncul, refresh halaman atau cek browser console.</p>
+          <button onclick="window.netlifyIdentity.open()" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            Login ke Admin
+          </button>
+        `;
+      }
+    }, 10000);
+  </script>
+</body>
+</html>

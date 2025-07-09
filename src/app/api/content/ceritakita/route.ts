@@ -1,43 +1,39 @@
-import { NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
+import { NextResponse } from 'next/server';
+import fs from 'fs/promises';
+import path from 'path';
+import matter from 'gray-matter';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const contentDirectory = path.join(process.cwd(), 'content')
-    const ceritaKitaDirectory = path.join(contentDirectory, 'ceritakita')
-
-    if (!fs.existsSync(ceritaKitaDirectory)) {
-      return NextResponse.json({ posts: [] })
-    }
-
-    const fileNames = fs.readdirSync(ceritaKitaDirectory)
-    const allPostsData = fileNames
-      .filter(fileName => fileName.endsWith('.md'))
-      .map((fileName) => {
-        // Remove ".md" from file name to get id
-        const id = fileName.replace(/\.md$/, '')
-        const fullPath = path.join(ceritaKitaDirectory, fileName)
-        const fileContents = fs.readFileSync(fullPath, 'utf8')
-        
-        const matterResult = matter(fileContents)
+    const contentDir = path.join(process.cwd(), 'content', 'ceritakita');
+    const files = await fs.readdir(contentDir);
+    const markdownFiles = files.filter(file => file.endsWith('.md'));
+    
+    const content = await Promise.all(
+      markdownFiles.map(async (file) => {
+        const filePath = path.join(contentDir, file);
+        const fileContent = await fs.readFile(filePath, 'utf8');
+        const { data, content } = matter(fileContent);
         
         return {
-          id,
-          ...matterResult.data,
-          content: matterResult.content
-        }
+          slug: file.replace('.md', ''),
+          data,
+          content
+        };
       })
-      .sort((a: any, b: any) => {
-        const dateA = new Date(a.publish_date || a.tanggal_post || '2000-01-01')
-        const dateB = new Date(b.publish_date || b.tanggal_post || '2000-01-01')
-        return dateB.getTime() - dateA.getTime()
-      })
+    );
 
-    return NextResponse.json({ posts: allPostsData })
+    return NextResponse.json({
+      success: true,
+      data: content
+    });
   } catch (error) {
-    console.error('Error fetching ceritakita:', error)
-    return NextResponse.json({ error: 'Failed to load ceritakita' }, { status: 500 })
+    console.error('Error reading ceritakita content:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to read content' },
+      { status: 500 }
+    );
   }
 }

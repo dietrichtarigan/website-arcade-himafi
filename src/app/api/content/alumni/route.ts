@@ -1,43 +1,39 @@
-import { NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
+import { NextResponse } from 'next/server';
+import fs from 'fs/promises';
+import path from 'path';
+import matter from 'gray-matter';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const contentDirectory = path.join(process.cwd(), 'content')
-    const alumniDirectory = path.join(contentDirectory, 'alumni')
-
-    if (!fs.existsSync(alumniDirectory)) {
-      return NextResponse.json({ posts: [] })
-    }
-
-    const fileNames = fs.readdirSync(alumniDirectory)
-    const allPostsData = fileNames
-      .filter(fileName => fileName.endsWith('.md'))
-      .map((fileName) => {
-        // Remove ".md" from file name to get id
-        const id = fileName.replace(/\.md$/, '')
-        const fullPath = path.join(alumniDirectory, fileName)
-        const fileContents = fs.readFileSync(fullPath, 'utf8')
-        
-        const matterResult = matter(fileContents)
+    const contentDir = path.join(process.cwd(), 'content', 'alumni');
+    const files = await fs.readdir(contentDir);
+    const markdownFiles = files.filter(file => file.endsWith('.md'));
+    
+    const content = await Promise.all(
+      markdownFiles.map(async (file) => {
+        const filePath = path.join(contentDir, file);
+        const fileContent = await fs.readFile(filePath, 'utf8');
+        const { data, content } = matter(fileContent);
         
         return {
-          id,
-          ...matterResult.data,
-          content: matterResult.content
-        }
+          slug: file.replace('.md', ''),
+          data,
+          content
+        };
       })
-      .sort((a: any, b: any) => {
-        if (a.nama < b.nama) return -1
-        if (a.nama > b.nama) return 1
-        return 0
-      })
+    );
 
-    return NextResponse.json({ posts: allPostsData })
+    return NextResponse.json({
+      success: true,
+      data: content
+    });
   } catch (error) {
-    console.error('Error fetching alumni:', error)
-    return NextResponse.json({ error: 'Failed to load alumni' }, { status: 500 })
+    console.error('Error reading alumni content:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to read content' },
+      { status: 500 }
+    );
   }
 }

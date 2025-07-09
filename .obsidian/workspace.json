@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ADMIN-BLANK-FIX.md",
+                "file": "ADMIN-LOGIN-FIX.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ADMIN-BLANK-FIX"
+              "title": "ADMIN-LOGIN-FIX"
             }
           }
         ]
@@ -78,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 238.5,
+    "collapsed": true
   },
   "right": {
     "id": "9ee141d48d074213",
@@ -170,20 +171,29 @@
   },
   "active": "753ff2a3299e2ef1",
   "lastOpenFiles": [
+    "node_modules/date-fns/fp/yearsToQuarters.d.ts",
+    "node_modules/date-fns/fp/yearsToMonths.d.ts",
+    "node_modules/date-fns/fp/yearsToDays.d.ts",
+    "node_modules/date-fns/fp/weeksToDays.d.ts",
+    "node_modules/date-fns/fp/transpose.d.ts",
+    "node_modules/date-fns/fp/toDate.d.ts",
+    "node_modules/date-fns/fp/subYearsWithOptions.d.ts",
+    "node_modules/date-fns/fp/subYears.d.ts",
+    "node_modules/date-fns/fp/subWithOptions.d.ts",
+    "node_modules/date-fns/fp/subWeeksWithOptions.d.ts",
+    "node_modules/date-fns/fp/subWeeks.d.ts",
+    "ADMIN-BLANK-FIX.md",
+    "out/window.svg",
+    "out/vercel.svg",
+    "out/next.svg",
+    "out/globe.svg",
+    "out/file.svg",
+    "node_modules/react-chartjs-2/README.md",
+    "node_modules/react-chartjs-2/LICENSE.md",
     "content/infoprof/wwe-2025-07-03.md",
     "content/infoprof/lll-2025-07-03.md",
     "node_modules/@types/chart.js/README.md",
-    "node_modules/@types/chart.js/LICENSE",
-    "node_modules/@types/chart.js/package.json",
-    "node_modules/@types/chart.js/index.d.ts",
-    "node_modules/@types/chart.js",
     "FINAL-CMS-DOCUMENTATION.md",
-    "simple-test.ps1",
-    "test-cms-features.ps1",
-    "data/sessions.json",
-    "data",
-    "node_modules/bcryptjs/umd/types.d.ts",
-    "node_modules/bcryptjs/umd/package.json",
     "node_modules/bcryptjs/README.md",
     "node_modules/@kurkle/color/README.md",
     "node_modules/@kurkle/color/LICENSE.md",
@@ -201,15 +211,6 @@
     "node_modules/lodash.once/README.md",
     "node_modules/safe-buffer/README.md",
     "node_modules/jwa/README.md",
-    "node_modules/ecdsa-sig-formatter/README.md",
-    "node_modules/buffer-equal-constant-time/README.md",
-    "node_modules/lucide-react/README.md",
-    "node_modules/chart.js/README.md",
-    "node_modules/chart.js/LICENSE.md",
-    "out/window.svg",
-    "out/vercel.svg",
-    "out/next.svg",
-    "out/globe.svg",
-    "out/file.svg"
+    "node_modules/ecdsa-sig-formatter/README.md"
   ]
 }
