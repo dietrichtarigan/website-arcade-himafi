@@ -15,7 +15,12 @@
     "cms:test": "echo 'Testing CMS endpoints...' && curl -f http://localhost:3000/admin/ || echo 'CMS not running'",
     "build:analyze": "ANALYZE=true npm run build",
     "deploy:manual": "npm run build && netlify deploy --prod --dir=out",
-    "postinstall": "echo 'Installation complete! Run npm run setup to configure CMS.'"
+    "deploy:preview": "npm run build && netlify deploy --dir=out",
+    "deploy:github": "powershell -ExecutionPolicy Bypass -File setup-github-repo.ps1",
+    "deploy:netlify": "powershell -ExecutionPolicy Bypass -File deploy-script.ps1",
+    "postinstall": "echo 'Installation complete! Run npm run setup to configure CMS.'",
+    "test:build": "npm run clean && npm run build",
+    "validate": "npm run lint && npm run test:build"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.50.2",

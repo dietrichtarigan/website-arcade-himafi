@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ADMIN-LOGIN-FIX.md",
+                "file": "PANDUAN-DEPLOY-NETLIFY.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ADMIN-LOGIN-FIX"
+              "title": "PANDUAN-DEPLOY-NETLIFY"
             }
           }
         ]
@@ -78,8 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 238.5,
-    "collapsed": true
+    "width": 238.5
   },
   "right": {
     "id": "9ee141d48d074213",
@@ -171,6 +170,9 @@
   },
   "active": "753ff2a3299e2ef1",
   "lastOpenFiles": [
+    "INTEGRATION-FIX.md",
+    "ADMIN-INFOPROF-FIX-COMPLETE.md",
+    "ADMIN-LOGIN-FIX.md",
     "node_modules/date-fns/fp/yearsToQuarters.d.ts",
     "node_modules/date-fns/fp/yearsToMonths.d.ts",
     "node_modules/date-fns/fp/yearsToDays.d.ts",
@@ -181,7 +183,6 @@
     "node_modules/date-fns/fp/subYears.d.ts",
     "node_modules/date-fns/fp/subWithOptions.d.ts",
     "node_modules/date-fns/fp/subWeeksWithOptions.d.ts",
-    "node_modules/date-fns/fp/subWeeks.d.ts",
     "ADMIN-BLANK-FIX.md",
     "out/window.svg",
     "out/vercel.svg",
@@ -209,8 +210,6 @@
     "node_modules/lodash.isstring/README.md",
     "node_modules/lodash.isplainobject/README.md",
     "node_modules/lodash.once/README.md",
-    "node_modules/safe-buffer/README.md",
-    "node_modules/jwa/README.md",
-    "node_modules/ecdsa-sig-formatter/README.md"
+    "node_modules/safe-buffer/README.md"
   ]
 }
