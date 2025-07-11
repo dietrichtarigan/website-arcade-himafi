@@ -1,9 +1,9 @@
-import { getInfoProfPosts } from '@/lib/content'
+import { getInfoProfPosts, InfoProfPost } from '@/lib/content'
 import InfoProfClient from './InfoProfClient'
 
 export default async function InfoProfPage() {
   // This runs at build time on the server
-  let allInfo = []
+  let allInfo: InfoProfPost[] = []
   
   try {
     allInfo = getInfoProfPosts()

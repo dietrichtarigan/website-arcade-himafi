@@ -3,8 +3,6 @@ import fs from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
 
-export const dynamic = 'force-dynamic';
-
 export async function GET() {
   try {
     const contentDir = path.join(process.cwd(), 'content', 'ceritakita');

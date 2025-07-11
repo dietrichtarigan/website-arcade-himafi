@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Only use export for production build
-  ...(process.env.NODE_ENV === 'production' && { output: 'export' }),
+  // Disable static export when deploying to platforms that support server functions
+  // Only use export for pure static sites
   trailingSlash: true,
   images: {
     unoptimized: true

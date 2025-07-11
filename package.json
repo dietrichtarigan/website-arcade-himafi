@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "clean": "rm -rf .next out",
-    "build": "next build && cp -r public/admin out/admin",
-    "start": "npx serve out",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint",
     "export": "next build && next export && cp -r public/admin out/admin",
     "setup": "powershell -ExecutionPolicy Bypass -File setup-cms.ps1",
