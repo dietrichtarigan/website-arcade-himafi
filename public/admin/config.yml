@@ -53,7 +53,7 @@ collections:
       - { label: "Foto Profil", name: "foto", widget: "image", required: false }
       - { label: "Prestasi", name: "prestasi", widget: "list", required: false }
       - { label: "Pengalaman Kerja", name: "pengalaman", widget: "markdown", required: false }
-      - { label: "Pesan untuk Adik Kelas", name: "pesan", name: "body", widget: "markdown", required: false }
+      - { label: "Pesan untuk Adik Kelas", name: "pesan", widget: "markdown", required: false }
       
   - name: "ceritakita"
     label: "📖 CeritaKita"
@@ -64,7 +64,7 @@ collections:
     preview_path: "/ceritakita/{{slug}}"
     fields:
       - { label: "Nama Alumni", name: "nama", widget: "string" }
-      - { label: "Cerita", name: "cerita", name: "body", widget: "markdown" }
+      - { label: "Cerita", name: "cerita", widget: "markdown" }
       - { label: "Tanggal Terbit", name: "publish_date", widget: "datetime", format: "YYYY-MM-DD HH:mm:ss" }
       - { label: "Foto", name: "foto", widget: "image", required: false }
       - { label: "Kategori Cerita", name: "kategori", widget: "select", options: ["Karier", "Akademik", "Inspirasi", "Tips"], default: "Inspirasi" }
