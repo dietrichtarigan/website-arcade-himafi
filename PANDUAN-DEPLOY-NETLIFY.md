@@ -41,7 +41,7 @@ git push -u origin main
 5. Konfigurasi build settings:
    - **Branch to deploy**: `main`
    - **Build command**: `npm run build`
-   - **Publish directory**: `out`
+   - **Publish directory**: `.next`
 6. Klik **"Deploy site"**
 
 ### 2.2 Konfigurasi Environment Variables

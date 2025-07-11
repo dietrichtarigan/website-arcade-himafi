@@ -170,6 +170,11 @@
   },
   "active": "753ff2a3299e2ef1",
   "lastOpenFiles": [
+    "README-DEPLOY-SCRIPTS.md",
+    "quick-deploy.bat",
+    "smart-deploy.bat",
+    "auto-deploy.bat",
+    "DEPLOY-FIX-SUMMARY.md",
     "INTEGRATION-FIX.md",
     "ADMIN-INFOPROF-FIX-COMPLETE.md",
     "ADMIN-LOGIN-FIX.md",
@@ -180,9 +185,6 @@
     "node_modules/date-fns/fp/transpose.d.ts",
     "node_modules/date-fns/fp/toDate.d.ts",
     "node_modules/date-fns/fp/subYearsWithOptions.d.ts",
-    "node_modules/date-fns/fp/subYears.d.ts",
-    "node_modules/date-fns/fp/subWithOptions.d.ts",
-    "node_modules/date-fns/fp/subWeeksWithOptions.d.ts",
     "ADMIN-BLANK-FIX.md",
     "out/window.svg",
     "out/vercel.svg",
@@ -208,8 +210,6 @@
     "node_modules/lodash.isnumber/README.md",
     "node_modules/lodash.isinteger/README.md",
     "node_modules/lodash.isstring/README.md",
-    "node_modules/lodash.isplainobject/README.md",
-    "node_modules/lodash.once/README.md",
-    "node_modules/safe-buffer/README.md"
+    "node_modules/lodash.isplainobject/README.md"
   ]
 }
