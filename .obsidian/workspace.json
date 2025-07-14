@@ -166,6 +166,7 @@
   },
   "active": "753ff2a3299e2ef1",
   "lastOpenFiles": [
+    "NETLIFY-FIXED-READY.md",
     "out/admin/admin/index.html",
     "out/admin/admin/index-new.html",
     "out/admin/admin/index-backup.html",
@@ -176,7 +177,6 @@
     "out/test-form/index.html",
     "out/test-form",
     "out/test-api/index.txt",
-    "out/test-api/index.html",
     "out/window.svg",
     "out/vercel.svg",
     "out/next.svg",

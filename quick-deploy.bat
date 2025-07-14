@@ -55,6 +55,10 @@ if %errorlevel% equ 0 (
     echo ✅ Netlify akan otomatis deploy website Anda
     echo ✅ Tunggu 2-3 menit untuk build selesai
     echo.
+    echo ⚙️ Build Settings Netlify:
+    echo    Build command: npm run build:static
+    echo    Publish directory: out
+    echo.
     echo 🌐 Website: https://your-site-name.netlify.app
     echo 📊 Status Deploy: https://app.netlify.com/
     echo.
